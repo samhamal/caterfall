@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <!-- Author: W3layouts
+    Author URL: http://w3layouts.com
+    License: Creative Commons Attribution 3.0 Unported
+    License URL: http://creativecommons.org/licenses/by/3.0/ -->
+    <head>
+        <title>cyan Flat ui kit Website Template | Home :: w3layouts</title>
+        <link href="../../static/css/bootstrap.css" th:href="@{/static/css/bootstrap.css}" rel="stylesheet" type="text/css" />
+        <script src="../../static/js/jquery.min.js" th:src="@{/static/js/jquery.min.js}"></script>
+        <link href="../../static/css/style.css" th:href="@{/static/css/style.css}" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="../../static/fonts/css/font-awesome.min.css" th:href="@{/static/fonts/css/font-awesome.min.css}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    </head>
+    <body>
+        <!-- container -->
+        <div class="container">
+            <div class="top-header">
+                <!-- script-for-sidepanle-nav -->
+                <link type="text/css" rel="stylesheet" href="../../static/css/jquery.mmenu.all.css" th:href="@{/static/css/jquery.mmenu.all.css}" />
+                <script type="text/javascript" src="../../static/js/jquery.mmenu.js" th:src="@{/static/js/jquery.mmenu.js}"></script>
+                <script type="text/javascript">
+                    //	The menu on the left
+                    $(function () {
+                        $('nav#menu-left').mmenu();
+                    });
+                </script>
+                <!-- script-for-sidepanle-nav -->
+                <div id="page">
+                    <div id="header">
+                        <a href="#menu-left"> </a>
+                    </div>
+                    <nav id="menu-left">
+                        <ul>
+                            <li><a href="#">Welcome!</a></li>
+                            <li class="active"><a href="#">Works</a></li>
+                            <li><a href="#">Features</a></li>
+                            <li><a href="#">About</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="logo">
+                    <span th:text="${self.name}">Dashboard </span>
+                </div>
+                <!-- usernotifications -->
+                <div class="usernotifications">
+                    <ul class="user-profile list-unstyled">
+                        <li><a href="#"><img src="../../static/images/user-pic.jpg" th:src="@{/static/images/user-pic.jpg}" title="admin" /></a>
+                            <ul class="sub list-unstyled">
+                                <li><a href="#">Profile</a></li>
+                                <li><a href="#">Settings</a></li>
+                                <li><a href="#">custom</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="notification list-unstyled user-profile" th:if="${friendshipRequests}">
+                        <li><a th:href="@{/friends}"><img src="../../static/images/notification-icon.png" th:src="@{/static/images/notification-icon.png}" title="notifications" /></a>
+                            <!-- <ul class="sub list-unstyled">
+                                <li><a href="#">20</a></li>
+                            </ul> -->
+                        </li>
+                    </ul>
+
+                    <ul class="logout list-unstyled">
+                        <li><a href="#" onclick="document.getElementById('logout-form').submit();"><span> </span></a></li>
+                    </ul>
+                    <form style="visibility: hidden" id ="logout-form" method="post" action="#" th:action="@{/logout}"><input type="submit" value="Logout"/></form>                    
+                </div>
+                <div class="clearfix"> </div>
+                <!-- usernotifications -->
+            </div>
+            <div class="clearfix"> </div>
+            <!-- content -->
+            <div class="content">
+                <div class="3-cols">
+                    <div class="col-1 col-md-3">
+                        <!-- user-profiles -->
+                        <div th:each="user : ${users}">
+                            <div class="user-profile1 text-center">
+                                <img th:if="${user.image != null}" th:src="@{/avatar/{id}(id=${user.image.id})}" th:title="${user.name}" height="128" width="128"/>
+                                <img th:if="${user.image == null}" src="../../static/images/people.png" th:src="@{/static/images/people.png}" th:title="${user.name}"/>
+                                <h3 th:text="${user.name}">Zach Dunes</h3>
+                                <p th:text="${user.slogan}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dapibus dui id libero auctor cursus. </p>
+                                <form method="POST" th:action="@{/friends}">
+                                    <input type="hidden" name="personId" th:value="${user.id}"/>
+                                    <input type="submit" class="p-btn" value="Friend 'em!"/>
+                                </form>
+                            </div>
+                            <hr/>
+                        </div>
+                        <!-- user-profiles -->
+
+                        <div class="sign-in-box">
+                        <form method="POST" th:action="@{/avatar}" enctype="multipart/form-data">
+                            
+                            <input type="file" name="image" id="file" class="btn-block"/>
+                            <input type="submit" value="Change avatar!" class="p-btn"/>
+                            
+                        </form>
+                        </div>
+                        <!-- social-tags -->
+                        <div class="social-tags">
+                            <h4>Lets get Social</h4>
+                            <ul class="list-unstyled list-inline">
+                                <li><a href="#"><span><i class="fa fa-facebook"> </i></span></a></li>
+                                <li><a href="#"><span><i class="fa fa-twitter"> </i></span></a></li>
+                                <li class="active"><a href="#"><span><i class="fa fa-linkedin"> </i></span></a></li>
+                                <li><a href="#"><span><i class="fa fa-skype"> </i></span></a></li>
+                            </ul>
+                        </div>
+                        <!-- social-tags -->
+                    </div><!-- End-col-1 -->
+                    <!-- col-2 -->
+                    <div class="col-2 col-md-3">
+                        <!-- chat-box -->
+                        <div class="chat-box">
+                            <div class="people-on-chat">
+                                <div class="chat-msg">
+                                    <div class="col-xs-2 chat-people">
+                                        <a href="#">
+                                            <img src="../../static/images/user-pic.jpg" th:src="@{/static/images/user-pic.jpg}" title="name" />
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-9 chat-msg-on">
+                                        <p>Lorem ipsum dolor sit amet, consectetur elit. ?</p>
+                                        <span> </span>
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </div>
+                                <!---->
+                                <div class="chat-msg">
+                                    <div class="col-xs-9 chat-msg-on chat-msg-replay">
+                                        <p>Nunc pharetra dui fermentum aliquam. ?</p>
+                                        <span> </span>
+                                    </div>
+                                    <div class="col-xs-2 chat-people">
+                                        <a href="#"><img src="../../static/images/user-pic.jpg" th:src="@{/static/images/user-pic.jpg}" title="name" /></a>
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </div>
+                                <!---->
+                                <div class="chat-msg">
+                                    <div class="col-xs-2 chat-people">
+                                        <a href="#"><img src="../../static/images/user-pic.jpg" th:src="@{/static/images/user-pic.jpg}" title="name" /></a>
+                                    </div>
+                                    <div class="col-xs-9 chat-msg-on">
+                                        <p> eu pretium risus. In sit amet est cursus. ?</p>
+                                        <span> </span>
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </div>
+                                <!---->
+                            </div>
+                            <!-- msg-type-box -->
+                            <div class="msg-type-box">
+                                <form>
+                                    <input type="text" value="Type your message..." onfocus="this.value = '';" onblur="if (this.value == '') {
+                                                this.value = 'Type your message...';
+                                            }"></input>
+                                    <input type="submit" value="Send" />
+                                </form>
+                            </div>
+                            <!-- msg-type-box -->
+                        </div>
+                        <div class="clearfix"> </div>
+                        <!-- chat-box -->
+
+                        <!-- twitter-box -->
+                        <div class="twitter-box">
+                            <div class="twitter-box-head">
+                                <h3><span> </span>Latest Tweets</h3>
+                                <div class="twitts-stat">
+                                    <div class="twitts-stat-grid">
+                                        <span> Followers</span>
+                                        <label>4.253</label>
+                                    </div>
+                                    <div class="twitts-stat-grid">
+                                        <span> Following</span>
+                                        <label>3,146</label>
+                                    </div>
+                                    <div class="twitts-stat-grid">
+                                        <span>Tweets</span>
+                                        <label>6,981</label>
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </div>
+                            </div>
+                            <!-- -->
+                            <!-- start-tweets-scroller -->
+                            <script type="text/javascript" src="../../static/js/jquery.easy-ticker.js" th:src="@{/static/js/jquery.easy-ticker.js}"></script>
+                            <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $('#demo').hide();
+                                            $('.vticker').easyTicker();
+                                        });
+                            </script>
+                            <!-- start-tweets-scroller -->
+                            <div class="latest-tweets-box">
+                                <div class="vticker">
+                                    <ul>
+                                        <li>
+                                            <p>Learn How to change the orientation of your image useing Content-Aware Scale:<a href="#">http://bit.ly/1h2ki3</a></p>
+                                            <span>14 mins ago</span>
+                                        </li>
+                                        <li>
+                                            <p>Learn How to change the orientation of your image useing Content-Aware Scale:<a href="#">http://bit.ly/1h2ki3</a></p>
+                                            <span>14 mins ago</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- twitter-box -->
+                    </div><!-- End-col-2 -->
+                    <!-- col-3 -->
+                    <div class="col-md-6 col-3">
+                        <!-- col-3-grid-5 -->
+                        <!-- get-in-touch -->
+                        <div class="get-in-touch" style="margin-top: 0">
+                            <h3>What's going on?</h3>
+                            <!---->
+                            <form method="POST" th:action="@{/posts}">
+                                <div class="get-in-touch-text-boxs">
+                                    <div class="get-in-touch-text-box">
+                                        <textarea name="content"> </textarea>
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                    <input type="submit" value="Let 'em know!" />
+                                </div>
+                            </form>
+                        </div>
+                        <!-- get-in-touch -->
+                        <div class="col-3-grid-5 timer-note" th:each="post : ${posts}">
+                            <div class="col-md-3 timer-people">
+                                <img th:if="${post.author.image != null}" th:src="@{/avatar/{id}(id=${post.author.image.id})}" th:title="${post.author.name}" height="128" width="128"/>
+                                <img th:if="${post.author.image == null}" src="../../static/images/people.png" th:src="@{/static/images/people.png}" th:title="${post.author.name}"/>
+                                <!--<img src="../../static/images/01.jpg" th:src="@{/static/images/01.jpg}" title="name" />-->
+                            </div>
+                            <div class="col-md-9 timer-info">
+
+                                <h3 class="t-name" th:if="${post.author != null}" th:text="${post.author.name}">Patel Banoni</h3>
+                                <h3 class="t-name" th:if="${post.author == null}">Anonymous</h3>
+
+                                <span class="t-time"><label> </label> <span th:text="${#calendars.format(post.date,'yyyy MMMM dd HH:mm')}">4:35</span></span>
+                                <div class="clearfix"> </div>
+                                <p th:text="${post.content}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dapibus dui id libero auctor cursus.</p>
+                                <b class="t-arrow"> </b>
+
+                                <form style="visibility: hidden" th:id="@{like-{id}(id=${post.id})}" method="post" action="#" th:action="@{/likes}"><input type="text" name="resourceId" th:value="${post.id}"></input><input type="submit" value="Like"/></form>
+                                <p><a href="#" th:id="@{like-link-{id}(id=${post.id})}" th:onclick="@{meGusta(event, 'like-{id}', '{id}')(id=${post.id})}">+1 like</a> <span class="like-text" th:id="@{like-text-{id}(id=${post.id})}"></span></p>
+                            </div>
+                            <div class="clearfix"> </div>
+                            <hr/>
+                        </div>
+                        <!-- col-3-grid-5 -->
+                        <!-- copy-right -->
+                        <div class="copy-right">
+                            <p>Template by <a href="http://w3layouts.com/">w3layouts</a></p>
+                        </div>
+                        <!-- copy-right -->
+                    </div>
+                    <!-- col-3 -->
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+            <!-- content -->
+
+        </div>
+        <!-- container -->
+
+        <script th:src="@{/static/js/likey.js}"></script>
+    </body>
+</html>
