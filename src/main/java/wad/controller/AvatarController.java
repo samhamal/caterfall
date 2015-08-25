@@ -47,7 +47,9 @@ public class AvatarController {
             image.setContentLength(file.getSize());
             image.setContentType(file.getContentType());
             image.setOwner(user);
-            images.save(image);
+            image = images.save(image);
+            user.setImage(image);
+            users.save(user);
         } else {
             throw new IOException();
         }
