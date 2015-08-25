@@ -1,10 +1,7 @@
 package wad.domain;
 
-import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Lob;
-import javax.persistence.OneToOne;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
@@ -15,21 +12,10 @@ public class AvatarImage extends AbstractPersistable<Long> {
     private String contentType;
     private Long contentLength;
     
-    @OneToOne(fetch = FetchType.LAZY)
-    private Person owner;
-    
     public AvatarImage() {
         
     }
 
-    public Person getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Person owner) {
-        this.owner = owner;
-    }
-    
     public String getContentType() {
         return contentType;
     }

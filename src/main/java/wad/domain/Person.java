@@ -22,7 +22,7 @@ public class Person extends AbstractPersistable<Long> {
     private String password;
     private String salt;
     
-    @OneToOne(mappedBy = "owner", fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private AvatarImage image;
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
