@@ -10,8 +10,8 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Entity
 public class AvatarImage extends AbstractPersistable<Long> {
     @Lob
-    @Basic(fetch = FetchType.LAZY)
     private byte[] content;
+    
     private String contentType;
     private Long contentLength;
     
