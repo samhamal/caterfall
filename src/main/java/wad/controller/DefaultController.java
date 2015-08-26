@@ -1,12 +1,14 @@
 package wad.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,11 +17,13 @@ import wad.domain.FriendshipRequest;
 import wad.domain.FriendshipRequest.Status;
 import wad.domain.Person;
 import wad.domain.Post;
+import wad.domain.TwitterFollow;
 import wad.repository.FriendshipRequestRepository;
 import wad.repository.PersonRepository;
 import wad.repository.PostRepository;
 import wad.service.LikeService;
 import wad.service.PersonService;
+import wad.service.TwitterService;
 
 @Controller
 @RequestMapping("*")
@@ -40,6 +44,9 @@ public class DefaultController {
     @Autowired
     private LikeService likeService;
     
+    @Autowired
+    private TwitterService twitter;
+    
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String viewLogin(Model model) {
         return "login";
@@ -56,6 +63,28 @@ public class DefaultController {
 
         Person self = personService.getAuthenticatedPerson();
         model.addAttribute("self", self);
+        
+        List<Tweet> tweets = new ArrayList<>();
+        List<TwitterFollow> follows = self.getFollows();
+        if(!follows.isEmpty()) {
+            for(TwitterFollow follow : follows) {
+                tweets.addAll(twitter.getTweetsFromUser(follow.getTwitterAccount()));
+            }
+            
+            boolean swapped = true;
+            while(swapped) {
+                swapped = false;
+                for(int i = 0; i < tweets.size() - 1; i++)
+                {
+                    if(tweets.get(i).getCreatedAt().before(tweets.get(i + 1).getCreatedAt())) {
+                        Collections.swap(tweets, i, i + 1);
+                        swapped = true;
+                    }
+                }
+            }
+            
+            model.addAttribute("tweets", tweets);
+        }
 
         List<FriendshipRequest> friends = friendshipRequestRepository.findBySourceOrTargetAndStatus(self, self, Status.ACCEPTED);
         Set<Person> persons = new HashSet<>();
