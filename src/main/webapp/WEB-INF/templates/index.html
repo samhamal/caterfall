@@ -100,6 +100,21 @@
                             
                         </form>
                         </div>
+                                                <!-- twitter-box -->
+                        <div class="twitter-box">
+                            <div class="sign-in-box">
+                            <h2>Follow a twitter account</h2>
+                            <form method="POST" th:action="@{/addtwitter}">
+                                <div class="text-boxs">
+                                    <span class="text-box">
+                                        <input type="text" name="user" placeholder="Username" />
+                                        <div class="clearfix"></div>
+                                    </span>
+                                </div>
+                                <input type="submit" value="Follow" />
+                            </form>
+                        </div>
+                        </div>
                         <!-- social-tags -->
                         <div class="social-tags">
                             <h4>Lets get Social</h4>
@@ -112,108 +127,6 @@
                         </div>
                         <!-- social-tags -->
                     </div><!-- End-col-1 -->
-                    <!-- col-2 -->
-                    <div class="col-2 col-md-3">
-                        <!-- chat-box -->
-                        <div class="chat-box">
-                            <div class="people-on-chat">
-                                <div class="chat-msg">
-                                    <div class="col-xs-2 chat-people">
-                                        <a href="#">
-                                            <img src="../../static/images/user-pic.jpg" th:src="@{/static/images/user-pic.jpg}" title="name" />
-                                        </a>
-                                    </div>
-                                    <div class="col-xs-9 chat-msg-on">
-                                        <p>Lorem ipsum dolor sit amet, consectetur elit. ?</p>
-                                        <span> </span>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <!---->
-                                <div class="chat-msg">
-                                    <div class="col-xs-9 chat-msg-on chat-msg-replay">
-                                        <p>Nunc pharetra dui fermentum aliquam. ?</p>
-                                        <span> </span>
-                                    </div>
-                                    <div class="col-xs-2 chat-people">
-                                        <a href="#"><img src="../../static/images/user-pic.jpg" th:src="@{/static/images/user-pic.jpg}" title="name" /></a>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <!---->
-                                <div class="chat-msg">
-                                    <div class="col-xs-2 chat-people">
-                                        <a href="#"><img src="../../static/images/user-pic.jpg" th:src="@{/static/images/user-pic.jpg}" title="name" /></a>
-                                    </div>
-                                    <div class="col-xs-9 chat-msg-on">
-                                        <p> eu pretium risus. In sit amet est cursus. ?</p>
-                                        <span> </span>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <!---->
-                            </div>
-                            <!-- msg-type-box -->
-                            <div class="msg-type-box">
-                                <form>
-                                    <input type="text" value="Type your message..." onfocus="this.value = '';" onblur="if (this.value == '') {
-                                                this.value = 'Type your message...';
-                                            }"></input>
-                                    <input type="submit" value="Send" />
-                                </form>
-                            </div>
-                            <!-- msg-type-box -->
-                        </div>
-                        <div class="clearfix"> </div>
-                        <!-- chat-box -->
-
-                        <!-- twitter-box -->
-                        <div class="twitter-box">
-                            <div class="twitter-box-head">
-                                <h3><span> </span>Latest Tweets</h3>
-                                <div class="twitts-stat">
-                                    <div class="twitts-stat-grid">
-                                        <span> Followers</span>
-                                        <label>4.253</label>
-                                    </div>
-                                    <div class="twitts-stat-grid">
-                                        <span> Following</span>
-                                        <label>3,146</label>
-                                    </div>
-                                    <div class="twitts-stat-grid">
-                                        <span>Tweets</span>
-                                        <label>6,981</label>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                            </div>
-                            <!-- -->
-                            <!-- start-tweets-scroller -->
-                            <script type="text/javascript" src="../../static/js/jquery.easy-ticker.js" th:src="@{/static/js/jquery.easy-ticker.js}"></script>
-                            <script type="text/javascript">
-                                        $(document).ready(function () {
-                                            $('#demo').hide();
-                                            $('.vticker').easyTicker();
-                                        });
-                            </script>
-                            <!-- start-tweets-scroller -->
-                            <div class="latest-tweets-box">
-                                <div class="vticker">
-                                    <ul>
-                                        <li>
-                                            <p>Learn How to change the orientation of your image useing Content-Aware Scale:<a href="#">http://bit.ly/1h2ki3</a></p>
-                                            <span>14 mins ago</span>
-                                        </li>
-                                        <li>
-                                            <p>Learn How to change the orientation of your image useing Content-Aware Scale:<a href="#">http://bit.ly/1h2ki3</a></p>
-                                            <span>14 mins ago</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- twitter-box -->
-                    </div><!-- End-col-2 -->
                     <!-- col-3 -->
                     <div class="col-md-6 col-3">
                         <!-- col-3-grid-5 -->
@@ -232,11 +145,11 @@
                             </form>
                         </div>
                         <!-- get-in-touch -->
+                        
                         <div class="col-3-grid-5 timer-note" th:each="post : ${posts}">
                             <div class="col-md-3 timer-people">
                                 <img th:if="${post.author.image != null}" th:src="@{/avatar/{id}(id=${post.author.image.id})}" th:title="${post.author.name}" height="128" width="128"/>
                                 <img th:if="${post.author.image == null}" src="../../static/images/people.png" th:src="@{/static/images/people.png}" th:title="${post.author.name}"/>
-                                <!--<img src="../../static/images/01.jpg" th:src="@{/static/images/01.jpg}" title="name" />-->
                             </div>
                             <div class="col-md-9 timer-info">
 
@@ -250,6 +163,22 @@
 
                                 <form style="visibility: hidden" th:id="@{like-{id}(id=${post.id})}" method="post" action="#" th:action="@{/likes}"><input type="text" name="resourceId" th:value="${post.id}"></input><input type="submit" value="Like"/></form>
                                 <p><a href="#" th:id="@{like-link-{id}(id=${post.id})}" th:onclick="@{meGusta(event, 'like-{id}', '{id}')(id=${post.id})}">+1 like</a> <span class="like-text" th:id="@{like-text-{id}(id=${post.id})}"></span></p>
+                            </div>
+                            <div class="clearfix"> </div>
+                            <hr/>
+                        </div>
+                        <div class="col-3-grid-5 timer-note" th:each="tweet : ${tweets}">
+                            <div class="col-md-3 timer-people">
+                                <img th:src="${tweet.profileImageUrl}" th:title="${tweet.fromUser}" height="128" width="128"/>
+                            </div>
+                            <div class="col-md-9 timer-info">
+                                <h3 class="t-name" th:if="${tweet.fromUser != null}" th:text="${tweet.fromUser}">Patel Banoni</h3>
+                                <h3 class="t-name" th:if="${tweet.fromUser == null}">Anonymous</h3>
+
+                                <span class="t-time"><label> </label> <span th:text="${#calendars.format(tweet.createdAt,'yyyy MMMM dd HH:mm')}">4:35</span></span>
+                                <div class="clearfix"> </div>
+                                <p th:text="${tweet.text}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dapibus dui id libero auctor cursus.</p>
+                                <b class="t-arrow"> </b>
                             </div>
                             <div class="clearfix"> </div>
                             <hr/>

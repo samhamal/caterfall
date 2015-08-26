@@ -30,6 +30,9 @@ public class Person extends AbstractPersistable<Long> {
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<Post> posts;
+    
+    @OneToMany(mappedBy = "follower", fetch = FetchType.LAZY)
+    private List<TwitterFollow> follows;
 
     public Person() {
         this.lastUpdated = new Date();
@@ -98,5 +101,13 @@ public class Person extends AbstractPersistable<Long> {
 
     public void setImage(AvatarImage image) {
         this.image = image;
+    }
+
+    public List<TwitterFollow> getFollows() {
+        return follows;
+    }
+
+    public void setFollows(List<TwitterFollow> follows) {
+        this.follows = follows;
     }
 }
