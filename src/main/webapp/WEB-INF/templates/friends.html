@@ -70,7 +70,8 @@
 
                         <div th:each="request : ${friendshipRequests}">
                             <div class="user-profile1 text-center">
-                                <img src="../../static/images/people.png" th:src="@{/static/images/people.png}" title="name" />
+                                <img th:if="${request.source.image != null}" th:src="@{/avatar/{id}(id=${request.source.image.id})}" th:title="${request.source.name}" height="128" width="128"/>
+                                <img th:if="${request.source.image == null}" src="../../static/images/people.png" th:src="@{/static/images/people.png}" th:title="${request.source.name}"/>
                                 <h3 th:text="${request.source.name}">Zach Dunes</h3>
                                 <p th:text="${request.source.slogan}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dapibus dui id libero auctor cursus. </p>
                                 <form method="POST" th:action="@{/friends}">
