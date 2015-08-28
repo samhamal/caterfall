@@ -22,13 +22,13 @@ public class Person extends AbstractPersistable<Long> {
     private String password;
     private String salt;
     
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     private AvatarImage image;
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date lastUpdated;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Post> posts;
     
     @OneToMany(mappedBy = "follower", fetch = FetchType.LAZY)
