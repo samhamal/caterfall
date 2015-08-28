@@ -2,6 +2,7 @@ package wad.controller;
 
 import java.io.IOException;
 import java.util.Arrays;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,9 @@ public class AvatarController {
     @Autowired
     private PersonRepository users;
     
+    @Autowired
+    private HttpServletRequest request;
+    
     @RequestMapping(method = RequestMethod.POST)
     public String set(@RequestParam("image") MultipartFile file) throws IOException {
         String[] OKTypes = {"image/jpeg", "image/gif", "image/png"};
@@ -59,10 +63,17 @@ public class AvatarController {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<byte[]> get(@PathVariable Long id) {
+        if(request.getHeader("If-None-Match") != null) {
+            return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.NOT_MODIFIED);
+        }
+        
         AvatarImage image = images.findOne(id);
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(image.getContentType()));
         headers.setContentLength(image.getContentLength());
+        headers.setCacheControl("public");
+        headers.setExpires(Long.MAX_VALUE);
+        headers.add("ETag", "\"" + image.getId() + "\"");
         
         return new ResponseEntity<>(image.getContent(), headers, HttpStatus.CREATED);
     }
