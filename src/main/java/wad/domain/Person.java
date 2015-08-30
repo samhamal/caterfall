@@ -24,6 +24,8 @@ public class Person extends AbstractPersistable<Long> {
     
     @OneToOne(fetch = FetchType.LAZY)
     private AvatarImage image;
+    
+    boolean hasAvatar;
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date lastUpdated;
@@ -33,9 +35,18 @@ public class Person extends AbstractPersistable<Long> {
     
     @OneToMany(mappedBy = "follower", fetch = FetchType.LAZY)
     private List<TwitterFollow> follows;
+    
+    public boolean hasAvatar() {
+        return hasAvatar;
+    }
+    
+    public void setHasAvatar() {
+        hasAvatar = true;
+    }
 
     public Person() {
         this.lastUpdated = new Date();
+        hasAvatar = false;
     }
 
     public String getName() {

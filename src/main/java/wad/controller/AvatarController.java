@@ -66,15 +66,19 @@ public class AvatarController {
         if(request.getHeader("If-None-Match") != null) {
             return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.NOT_MODIFIED);
         }
-        
-        AvatarImage image = images.findOne(id);
-        final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType(image.getContentType()));
-        headers.setContentLength(image.getContentLength());
-        headers.setCacheControl("public");
-        headers.setExpires(Long.MAX_VALUE);
-        headers.add("ETag", "\"" + image.getId() + "\"");
-        
-        return new ResponseEntity<>(image.getContent(), headers, HttpStatus.CREATED);
+        Person person = users.findOne(id);
+        if(person.hasAvatar()) {
+            AvatarImage image = images.findOne(id);
+            final HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType(image.getContentType()));
+            headers.setContentLength(image.getContentLength());
+            headers.setCacheControl("public");
+            headers.setExpires(Long.MAX_VALUE);
+            headers.add("ETag", "\"" + image.getId() + "\"");
+
+            return new ResponseEntity<>(image.getContent(), headers, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.NOT_FOUND);
+        }
     }
 }
