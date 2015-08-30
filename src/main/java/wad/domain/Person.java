@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -22,9 +21,7 @@ public class Person extends AbstractPersistable<Long> {
     private String password;
     private String salt;
     
-    @OneToOne(fetch = FetchType.LAZY)
-    private AvatarImage image;
-    
+    private Long avatarId;    
     boolean hasAvatar;
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -40,10 +37,6 @@ public class Person extends AbstractPersistable<Long> {
         return hasAvatar;
     }
     
-    public void setHasAvatar() {
-        hasAvatar = true;
-    }
-
     public Person() {
         this.lastUpdated = new Date();
         hasAvatar = false;
@@ -106,12 +99,13 @@ public class Person extends AbstractPersistable<Long> {
         this.posts = posts;
     }
     
-    public AvatarImage getImage() {
-        return image;
+    public Long getAvatarId() {
+        return avatarId;
     }
-
-    public void setImage(AvatarImage image) {
-        this.image = image;
+    
+    public void uploadedAvatar(Long id) {
+        avatarId = id;
+        hasAvatar = true;
     }
 
     public List<TwitterFollow> getFollows() {

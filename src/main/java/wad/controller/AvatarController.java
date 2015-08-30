@@ -44,8 +44,8 @@ public class AvatarController {
         
         if(Arrays.asList(OKTypes).contains(file.getContentType())) {
             Person user = people.getAuthenticatedPerson();
-            if(user.getImage() != null) {
-                images.delete(user.getImage().getId());
+            if(user.hasAvatar()) {
+                images.delete(user.getAvatarId());
             }
             
             AvatarImage image = new AvatarImage();
@@ -53,7 +53,7 @@ public class AvatarController {
             image.setContentLength(file.getSize());
             image.setContentType(file.getContentType());
             image = images.save(image);
-            user.setImage(image);
+            user.uploadedAvatar(image.getId());
             users.save(user);
         } else {
             throw new IOException();
@@ -66,9 +66,10 @@ public class AvatarController {
         if(request.getHeader("If-None-Match") != null) {
             return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.NOT_MODIFIED);
         }
+        
         Person person = users.findOne(id);
         if(person.hasAvatar()) {
-            AvatarImage image = images.findOne(id);
+            AvatarImage image = images.findOne(person.getAvatarId());
             final HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.parseMediaType(image.getContentType()));
             headers.setContentLength(image.getContentLength());

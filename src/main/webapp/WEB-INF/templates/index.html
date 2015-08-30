@@ -79,8 +79,8 @@
                         <!-- user-profiles -->
                         <div th:each="user : ${users}">
                             <div class="user-profile1 text-center">
-                                <img th:if="${user.image != null}" th:src="@{/avatar/{id}(id=${user.image.id})}" th:title="${user.name}" height="128" width="128"/>
-                                <img th:if="${user.image == null}" src="../../static/images/people.png" th:src="@{/static/images/people.png}" th:title="${user.name}"/>
+                                <img th:if="${user.hasAvatar()}" th:src="@{/avatar/{id}(id=${user.id})}" th:title="${user.name}" height="128" width="128"/>
+                                <img th:if="${!user.hasAvatar()}" src="../../static/images/people.png" th:src="@{/static/images/people.png}" th:title="${user.name}"/>
                                 <h3 th:text="${user.name}">Zach Dunes</h3>
                                 <p th:text="${user.slogan}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dapibus dui id libero auctor cursus. </p>
                                 <form method="POST" th:action="@{/friends}">
@@ -142,8 +142,8 @@
                         
                         <div class="col-3-grid-5 timer-note" th:each="post : ${posts}">
                             <div class="col-md-3 timer-people">
-                                <img th:if="${post.author.image != null}" th:src="@{/avatar/{id}(id=${post.author.image.id})}" th:title="${post.author.name}" height="128" width="128"/>
-                                <img th:if="${post.author.image == null}" src="../../static/images/people.png" th:src="@{/static/images/people.png}" th:title="${post.author.name}"/>
+                                <img th:if="${post.author.hasAvatar()}" th:src="@{/avatar/{id}(id=${post.author.id})}" th:title="${post.author.name}" height="128" width="128"/>
+                                <img th:if="${!post.author.hasAvatar()}" src="../../static/images/people.png" th:src="@{/static/images/people.png}" th:title="${post.author.name}"/>
                             </div>
                             <div class="col-md-9 timer-info">
 

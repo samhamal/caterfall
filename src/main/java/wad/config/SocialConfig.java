@@ -10,8 +10,8 @@ import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.twitter.connect.TwitterConnectionFactory;
 
 @Configuration
-public class SocialConfig implements SocialConfigurer {
-
+public class SocialConfig /*implements SocialConfigurer*/ {
+/*
     @Override
     public UserIdSource getUserIdSource() {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -27,5 +27,5 @@ public class SocialConfig implements SocialConfigurer {
             env.getProperty("twitter.consumerKey"),
             env.getProperty("twitter.consumerSecret")));
     }
-    
+    */
 }
