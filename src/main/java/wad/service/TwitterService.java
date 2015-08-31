@@ -24,6 +24,10 @@ public class TwitterService {
         twitter = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret);
     }
     
+    public boolean accountExists(String user) {
+        return (twitter.userOperations().getUserProfile(user) != null);
+    }
+    
     public List<Tweet> getTweetsFromUser(String user) {
         return twitter.timelineOperations().getUserTimeline(user);
     }

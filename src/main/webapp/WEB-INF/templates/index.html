@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="../../static/fonts/css/font-awesome.min.css" th:href="@{/static/fonts/css/font-awesome.min.css}" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+        <meta charset="UTF-8"></meta>
     </head>
     <body>
         <!-- container -->
@@ -103,6 +104,7 @@
                         <!-- twitter-box -->
                         <div class="twitter-box">
                             <div class="sign-in-box">
+                                <h3 class="alert-warning" th:if="${twitterAccountError != null}" th:text="${twitterAccountError}"></h3>    
                             <h2>Follow a twitter account</h2>
                             <form method="POST" th:action="@{/addtwitter}">
                                 <div class="text-boxs">
@@ -128,7 +130,7 @@
                         <div class="get-in-touch" style="margin-top: 0">
                             <h3>What's going on?</h3>
                             <!---->
-                            <form method="POST" th:action="@{/posts}">
+                            <form method="POST" th:action="@{/posts}" accept-charset="UTF-8">
                                 <div class="get-in-touch-text-boxs">
                                     <div class="get-in-touch-text-box">
                                         <textarea name="content"> </textarea>
