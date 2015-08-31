@@ -1,7 +1,6 @@
 package wad.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import wad.domain.Entry;
 import wad.domain.FriendshipRequest;
 import wad.domain.FriendshipRequest.Status;
 import wad.domain.Person;
@@ -21,6 +21,7 @@ import wad.domain.TwitterFollow;
 import wad.repository.FriendshipRequestRepository;
 import wad.repository.PersonRepository;
 import wad.repository.PostRepository;
+import wad.service.EntryBuilder;
 import wad.service.LikeService;
 import wad.service.PersonService;
 import wad.service.TwitterService;
@@ -59,6 +60,7 @@ public class DefaultController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String view(Model model) {
+        EntryBuilder entryBuilder = new EntryBuilder();
         PageRequest pr = new PageRequest(0, 10, Sort.Direction.DESC, "date");
 
         Person self = personService.getAuthenticatedPerson();
@@ -71,19 +73,7 @@ public class DefaultController {
                 tweets.addAll(twitter.getTweetsFromUser(follow.getTwitterAccount()));
             }
             
-            boolean swapped = true;
-            while(swapped) {
-                swapped = false;
-                for(int i = 0; i < tweets.size() - 1; i++)
-                {
-                    if(tweets.get(i).getCreatedAt().before(tweets.get(i + 1).getCreatedAt())) {
-                        Collections.swap(tweets, i, i + 1);
-                        swapped = true;
-                    }
-                }
-            }
-            
-            model.addAttribute("tweets", tweets);
+            entryBuilder.addTweets(tweets);
         }
 
         List<FriendshipRequest> friends = friendshipRequestRepository.findBySourceOrTargetAndStatus(self, self, Status.ACCEPTED);
@@ -95,8 +85,11 @@ public class DefaultController {
 
         if (!persons.isEmpty()) {
             List<Post> posts = postRepository.findByAuthorIn(persons, pr);
-            model.addAttribute("posts", posts);
+            entryBuilder.addPosts(posts);
         }
+        
+        entryBuilder.sort();
+        model.addAttribute("posts", entryBuilder.getEntries());
 
         pr = new PageRequest(0, 10, Sort.Direction.DESC, "lastUpdated");
         List<Person> userList = new ArrayList<>(personRepository.findAll(pr).getContent());

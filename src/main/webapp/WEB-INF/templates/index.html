@@ -142,27 +142,43 @@
                         </div>
                         <!-- get-in-touch -->
                         
-                        <div class="col-3-grid-5 timer-note" th:each="post : ${posts}">
+                        <div class="col-3-grid-5 timer-note" th:each="entry : ${posts}">
                             <div class="col-md-3 timer-people">
-                                <img th:if="${post.author.hasAvatar()}" th:src="@{/avatar/{id}(id=${post.author.id})}" th:title="${post.author.name}" height="128" width="128"/>
-                                <img th:if="${!post.author.hasAvatar()}" src="../../static/images/people.png" th:src="@{/static/images/people.png}" th:title="${post.author.name}"/>
+                                <span th:if="${entry.fromTwitter}">
+                                    <img th:src="${entry.tweet.profileImageUrl}" th:title="${entry.tweet.fromUser}" height="128" width="128"/>
+                                </span>
+                                <span th:if="${!entry.fromTwitter}">
+                                    <img th:if="${entry.post.author.hasAvatar()}" th:src="@{/avatar/{id}(id=${entry.post.author.id})}" th:title="${entry.post.author.name}" height="128" width="128"/>
+                                    <img th:if="${!entry.post.author.hasAvatar()}" src="../../static/images/people.png" th:src="@{/static/images/people.png}" th:title="${entry.post.author.name}"/>                                    
+                                </span>
                             </div>
-                            <div class="col-md-9 timer-info">
+                            <div class="col-md-9 timer-info" th:if="${!entry.fromTwitter}">
 
-                                <h3 class="t-name" th:if="${post.author != null}" th:text="${post.author.name}">Patel Banoni</h3>
-                                <h3 class="t-name" th:if="${post.author == null}">Anonymous</h3>
+                                <h3 class="t-name" th:if="${entry.post.author != null}" th:text="${entry.post.author.name}">Patel Banoni</h3>
+                                <h3 class="t-name" th:if="${entry.post.author == null}">Anonymous</h3>
 
-                                <span class="t-time"><label> </label> <span th:text="${#calendars.format(post.date,'yyyy MMMM dd HH:mm')}">4:35</span></span>
+                                <span class="t-time"><label> </label> <span th:text="${#calendars.format(entry.post.date,'yyyy MMMM dd HH:mm')}">4:35</span></span>
                                 <div class="clearfix"> </div>
-                                <p th:text="${post.content}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dapibus dui id libero auctor cursus.</p>
+                                <p th:text="${entry.post.content}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dapibus dui id libero auctor cursus.</p>
                                 <b class="t-arrow"> </b>
 
-                                <form style="visibility: hidden" th:id="@{like-{id}(id=${post.id})}" method="post" action="#" th:action="@{/likes}"><input type="text" name="resourceId" th:value="${post.id}"></input><input type="submit" value="Like"/></form>
-                                <p><a href="#" th:id="@{like-link-{id}(id=${post.id})}" th:onclick="@{meGusta(event, 'like-{id}', '{id}')(id=${post.id})}">+1 like</a> <span class="like-text" th:id="@{like-text-{id}(id=${post.id})}"></span></p>
+                                <form style="visibility: hidden" th:id="@{like-{id}(id=${entry.post.id})}" method="post" action="#" th:action="@{/likes}"><input type="text" name="resourceId" th:value="${entry.post.id}"></input><input type="submit" value="Like"/></form>
+                                <p><a href="#" th:id="@{like-link-{id}(id=${entry.post.id})}" th:onclick="@{meGusta(event, 'like-{id}', '{id}')(id=${entry.post.id})}">+1 like</a> <span class="like-text" th:id="@{like-text-{id}(id=${entry.post.id})}"></span></p>
                             </div>
+                            <div class="col-md-9 timer-info" th:if="${entry.fromTwitter}">
+
+                                <h3 class="t-name" th:if="${entry.tweet.fromUser != null}" th:text="${entry.tweet.fromUser}">Patel Banoni</h3>
+                                <h3 class="t-name" th:if="${entry.tweet.fromUser == null}">Anonymous</h3>
+
+                                <span class="t-time"><label> </label> <span th:text="${#calendars.format(entry.tweet.createdAt,'yyyy MMMM dd HH:mm')}">4:35</span></span>
+                                <div class="clearfix"> </div>
+                                <p th:text="${entry.tweet.text}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dapibus dui id libero auctor cursus.</p>
+                                <b class="t-arrow"> </b>
+                            </div>                            
                             <div class="clearfix"> </div>
                             <hr/>
                         </div>
+                        <!--
                         <div class="col-3-grid-5 timer-note" th:each="tweet : ${tweets}">
                             <div class="col-md-3 timer-people">
                                 <img th:src="${tweet.profileImageUrl}" th:title="${tweet.fromUser}" height="128" width="128"/>
@@ -179,6 +195,7 @@
                             <div class="clearfix"> </div>
                             <hr/>
                         </div>
+                        -->
                         <!-- col-3-grid-5 -->
                     </div>
                     <!-- col-3 -->

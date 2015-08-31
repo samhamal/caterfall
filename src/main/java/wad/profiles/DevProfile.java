@@ -1,5 +1,6 @@
 package wad.profiles;
 
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -47,6 +48,8 @@ public class DevProfile {
         
         Post post = new Post();
         post.setContent("Now they broke my toothbrush, I don't own anything.");
+        long stamp = 1430464674000L;
+        post.setDate(new Date(stamp));
         post.setAuthor(jackR);
         
         postRepository.save(post);
